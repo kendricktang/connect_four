@@ -38,9 +38,12 @@ indicating a single move by a single player in a game. The columns are:
 
 2. `player_id` - Opaque string indicating which player made a move.
 
-3. `column` - Integer column that the player dropped their token into.
+3. `move_number` - Integer indicating the move number for this game. The first
+   move of a game will have `1` as the `move_number`.
 
-4. `result` - Contains "win" when the move results in the player winning the
+4. `column` - Integer column that the player dropped their token into.
+
+5. `result` - Contains "win" when the move results in the player winning the
    game, "draw" if the move ends the game in draw, and is empty otherwise.
 
 [1]: game_data.csv
@@ -81,12 +84,7 @@ An example response is:
       },
       "email": "adrien.lambert@example.com",
       "login": {
-        "username": "yellowgorilla717",
-        "password": "gatorade",
-        "salt": "H4cUC1N2",
-        "md5": "336e3335b5d9304f1201c0beb4430211",
-        "sha1": "e6bbe6cb7a7cc54d8a44092f8a7d8c49aca2d470",
-        "sha256": "28d762eef813bad2e4ac383aeeec7114c6e912b56971fb8c591959a863b2b44b"
+        "username": "yellowgorilla717"
       },
       "dob": "1946-01-26 18:44:10",
       "registered": "2007-05-17 07:51:54",
