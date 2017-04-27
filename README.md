@@ -47,21 +47,71 @@ indicating a single move by a single player in a game. The columns are:
 
 ### 9dt player profile API
 
-There is a 9dt player profile API at the following location: FIXME. You can
-make GET requests to the API to retrieve JSON formatted data about individual
-players:
+There is a 9dt player profile API at the following location:
+https://x37sv76kth.execute-api.us-west-1.amazonaws.com/prod/users. You can make
+HTTP GET requests to the API to retrieve JSON formatted data about players, 10
+at a time:
 
 ```
-curl -X GET -H 'Accept: application/json' FIXME/user/PLAYER_ID
+curl -X GET -H 'Accept: application/json' https://x37sv76kth.execute-api.us-west-1.amazonaws.com/prod/users?page=0
 ```
 
-`PLAYER_ID` - Opaque string that uniquely identifies a player.
+Increase the `page` query string parameter to get more players. An empty array
+is returned when there are no more players (at time of writing, there were
+~5000 players).
 
-An example response for this user is:
+An example response is:
 
 ```json
-{"FIXME": "FIXME"}
+[
+  {
+    "id": 3300,
+    "data": {
+      "gender": "male",
+      "name": {
+        "title": "monsieur",
+        "first": "adrien",
+        "last": "lambert"
+      },
+      "location": {
+        "street": "2520 rue barrier",
+        "city": "morges 2",
+        "state": "nidwalden",
+        "postcode": 9752
+      },
+      "email": "adrien.lambert@example.com",
+      "login": {
+        "username": "yellowgorilla717",
+        "password": "gatorade",
+        "salt": "H4cUC1N2",
+        "md5": "336e3335b5d9304f1201c0beb4430211",
+        "sha1": "e6bbe6cb7a7cc54d8a44092f8a7d8c49aca2d470",
+        "sha256": "28d762eef813bad2e4ac383aeeec7114c6e912b56971fb8c591959a863b2b44b"
+      },
+      "dob": "1946-01-26 18:44:10",
+      "registered": "2007-05-17 07:51:54",
+      "phone": "(127)-093-1911",
+      "cell": "(867)-527-4578",
+      "id": {
+        "name": "AVS",
+        "value": "756.OUGI.JBUO.16"
+      },
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/81.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/81.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/81.jpg"
+      },
+      "nat": "CH"
+    }
+  },
+  ...
+]
 ```
+
+The `id` field at the top-level of each object in the response is the player id
+(same as `player_id` in CSV). The `data` object has details about the player
+like name, nationality (`nat`), email, and more (player data from
+https://randomuser.me/).
 
 ### Analysis
 
