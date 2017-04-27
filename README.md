@@ -127,13 +127,17 @@ analyses:
    lost, or drew the game. Which players should receive an email, and with what
    customization?
 
+There should be tables or views to support each of the above analyses. Please
+include the table or view names that relate to each of the above analyses in
+your submission.
+
 ## Submitting your implementation
 
 We expect one deliverable in your submission with: the documentation, source
 code, and anything else required to run you solution.
 
 To submit the source code, configuration files, etc, the easiest way is to
-share a private Github or BitBucket repository with us (we will send you the
+share a Github or BitBucket repository with us (we will send you the
 appropriate usernames). Alternatively, we can accept compressed tarballs or zip
 archives. We cannot accept those over email, though, so we recommend a file
 sharing service like Google Drive, Dropbox, or similar.
@@ -142,7 +146,7 @@ sharing service like Google Drive, Dropbox, or similar.
 
 If you use a Redshift database, please include instructions for passing in the
 database connection information (hostname, port, user, password, etc; a single
-JDBC style url is also fine). If you used another tool for your data warehouse,
+JDBC style url is also fine). If you use another tool for your data warehouse,
 please include detailed instructions for how to setup that tool. We are
 experienced developers, but we may not be familiar with the tools or languages
 you used, so please draft the instructions for running your solution
