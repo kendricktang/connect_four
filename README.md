@@ -2,16 +2,17 @@
 
 Welcome to 98point6's at-home interview question! The purpose of this exercise
 is for you to demonstrate your data engineering competency by designing and
-implementing a basic data warehouse with [Amazon Redshift][0] or similar. The
-data warehouse will be used to understand player and game information for an
+implementing a basic data warehouse with a database engine (like
+[Amazon Redshift][0], PostgreSQL, MySQL, or similar). The data
+warehouse will be used to understand player and game information for an
 internal game, 98point6 Drop Token (described in next section).
 
 [0]: https://aws.amazon.com/redshift/
 
 Your task is to design a data warehouse for stakeholders to answer questions
-about all the 98point6 Drop Token (9dt) players and games. You have access to a
-CSV file with game data and a player profile API that returns detailed player
-information based on the player id.
+about all the 98point6 Drop Token (9dt) players and games, and generally
+explore the data. You have access to a CSV file with game data and a player
+profile API that returns detailed player information based on the player id.
 
 ## Rules of the 98point6 Drop Token Game
 
@@ -116,7 +117,10 @@ https://randomuser.me/).
 Your data warehouse should enable its consumers to easily run the following
 analyses:
 
-1. What first move is most likely to result in a win?
+1. Out of all the games, what is the percentile rank of each column used as the
+   first move in a game? That is, when the first player is choosing a column
+   for their first move, which column most frequently leads to that player
+   winning the game?
 
 2. How many games has each nationality of player played?
 
@@ -131,8 +135,9 @@ your submission.
 
 ## Submitting your implementation
 
-We expect one deliverable in your submission with: the documentation, source
-code, and anything else required to run you solution.
+We expect one deliverable in your submission with the scripts or executables
+that setup the data warehouse, load the data, and transform it as
+needed. Please include some documentation explaining how to run your scripts.
 
 To submit the source code, configuration files, etc, the easiest way is to
 share a Github or BitBucket repository with us (we will send you the
@@ -142,13 +147,13 @@ sharing service like Google Drive, Dropbox, or similar.
 
 ### Running your solution
 
-If you use a Redshift database, please include instructions for passing in the
-database connection information (hostname, port, user, password, etc; a single
-JDBC style url is also fine). If you use another tool for your data warehouse,
-please include detailed instructions for how to setup that tool. We are
-experienced developers, but we may not be familiar with the tools or languages
-you used, so please draft the instructions for running your solution
-accordingly.
+If you use a database engine (like Redshift, PostgreSQL, MySQL, etc), please
+include instructions for passing in the database connection information
+(hostname, port, user, password, etc; a single JDBC style url is also fine). If
+you use another tool for your data warehouse, please include detailed
+instructions for how to setup that tool. We are experienced developers, but we
+may not be familiar with the tools or languages you used, so please draft the
+instructions for running your solution accordingly.
 
 ### External tools and platforms
 
