@@ -122,7 +122,7 @@ analyses:
    for their first move, which column most frequently leads to that player
    winning the game?
 
-2. How many games has each nationality of player played?
+2. How many games has each nationality participated in?
 
 3. Marketing wants to send emails to players that have only played a single
    game. The email will be customized based on whether or not the player won,
