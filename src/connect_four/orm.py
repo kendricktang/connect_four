@@ -4,7 +4,7 @@ Storing User and Game data.
 """
 import logging
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -47,23 +47,15 @@ class User(Base):
     nationality = Column(String(64))
 
 
-class Game(Base):
-    """A game from the CSV.
+class Move(Base):
+    """A move from the CSV.
 
     The CSV is streamed in. It has four columns: game_id, player_id,
-    move_number, column, result.
-
-    I'm only keeping track of the bare minimum to answer the first question.
-    That means I want to know the game_id, the first move, and whether the
-    first player won, second player won, or it was a tie.
-
-    Result:
-        * 1 -> first player won
-        * 2 -> second player won
-        * 3 -> tie
+    move_number, column, result. Just keep track of everything.
     """
-
-    __tablename__ = "game"
+    __tablename__ = "move"
     id = Column(Integer, primary_key=True)
-    first_move = Column(Integer)
-    result = Column(Integer)
+    player_id = Column(Integer, ForeignKey("user.id"))
+    move_number = Column(Integer)
+    column = Column(Integer)
+    result = Column(String(4))
