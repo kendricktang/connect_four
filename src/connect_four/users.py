@@ -11,6 +11,15 @@ USER_API_URL = (
         "https://x37sv76kth.execute-api.us-west-1.amazonaws.com/prod/users")
 
 
+def get_nationality(session, user_id):
+    result = session.query(orm.User) \
+            .with_entities(orm.User.nat) \
+            .filter(orm.User.id == user_id) \
+            .all()
+    assert len(result) == 1
+    return result[0][0]
+
+
 def load_users(session):
     """Page through the user api and store user data in the database.
 

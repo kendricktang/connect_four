@@ -1,3 +1,4 @@
+import redis
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -27,7 +28,15 @@ def get_session(debug=True):
         pass
 
 
-def delete_sqlite_db():
+def get_redis():
+    return redis.Redis(host="localhost", port=6379)
+
+
+def flush_redis():
+    get_redis().flushall()
+
+
+def flush_sqlite():
     """Drop all the tables and get a fresh start."""
     engine = create_engine(SQLITE_URL)
     orm.Base.metadata.drop_all(engine)

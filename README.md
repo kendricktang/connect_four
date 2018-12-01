@@ -42,3 +42,10 @@ think about that later. For now, I'll use Redis in the following way:
 Some thoughts about load... currently there's almost no load because there are
 ~200 countries and (1, 2, 3, 4) X (win, loss, tie) -> ~ 212 numbers that are
 stored and incremented. Easy peasy.
+
+
+# TODO
+
+SQL query user nationalities? Or keep user data in redis, too?
+
+Multi-thread streaming csv and pinging the user api for better speeds

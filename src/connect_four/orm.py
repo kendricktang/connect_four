@@ -44,7 +44,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     email = Column(String(128))
     name = Column(String(128))
-    nationality = Column(String(64))
+    nat = Column(String(64))
 
 
 class Move(Base):
@@ -54,7 +54,8 @@ class Move(Base):
     move_number, column, result. Just keep track of everything.
     """
     __tablename__ = "move"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    game_id = Column(Integer)
     player_id = Column(Integer, ForeignKey("user.id"))
     move_number = Column(Integer)
     column = Column(Integer)
