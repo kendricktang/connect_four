@@ -1,4 +1,20 @@
-"""Calculate the numbers that yall are looking for."""
+"""Calculate the numbers that yall are looking for.
+
+The three questions are:
+
+1. Out of all the games, what is the percentile rank of each column used as the
+   first move in a game? That is, when the first player is choosing a column
+   for their first move, which column most frequently leads to that player
+   winning the game?
+
+2. How many games has each nationality participated in?
+
+3. Marketing wants to send emails to players that have only played a single
+   game. The email will be customized based on whether or not the player won,
+   lost, or drew the game. Which players should receive an email, and with what
+   customization?
+
+"""
 
 import argparse
 
