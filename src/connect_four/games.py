@@ -23,11 +23,14 @@ def load_games(sql_session, redis_session, csv):
         starting_move = game["starting_move"]
         result = game["result"]
         redis_session.hincrby(f'move:{starting_move}', result, 1)
-
         # Increment counters for second question
         for user_id in game["p1"], game["p2"]:
-            nat = redis_session.hget(f"user:{user_id}", "nat")
+            # Increment nationality
+            nat = redis_session.hget(f"user:{user_id}", "nat").decode()
             redis_session.incr(f"nat:{nat}")
+
+            # Increment num of games
+            redis_session.zincrby("games", 1, user_id)
 
     LOGGER.info(f"Done loading {csv}.")
 
