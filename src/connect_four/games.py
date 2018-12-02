@@ -19,7 +19,7 @@ def load_games(sql_session, redis_session, csv):
     io_stream = open(csv, "rb")
     for game in game_generator(io_stream, sql_session):
         # Increment counters for first question.
-        LOGGER.info(game)
+        LOGGER.debug(game)
         starting_move = game["starting_move"]
         result = game["result"]
         redis_session.hincrby(f'move:{starting_move}', result, 1)
@@ -40,7 +40,6 @@ def load_games(sql_session, redis_session, csv):
                 first_game = "win" if player_position == 2 else "loss"
             else:
                 first_game = "draw"
-            print(first_game)
             redis_session.hsetnx(f"user:{user_id}", "first_game", first_game)
 
     LOGGER.info(f"Done loading {csv}.")

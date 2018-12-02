@@ -109,6 +109,7 @@ async def produce(queue, debug=False, coroutine_limit=COROUTINE_LIMIT):
 
     Sends None when there are no more responses left to produce.
     """
+    LOGGER.info("Starting to get user data from API.")
     page = 0
     stop = False
     while not stop:
@@ -128,6 +129,7 @@ async def produce(queue, debug=False, coroutine_limit=COROUTINE_LIMIT):
         if debug and page >= 99:
             stop = True
     await queue.put(None)
+    LOGGER.info("No more user data from API.")
 
 
 async def get_request(page):
