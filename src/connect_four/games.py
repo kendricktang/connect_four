@@ -24,13 +24,24 @@ def load_games(sql_session, redis_session, csv):
         result = game["result"]
         redis_session.hincrby(f'move:{starting_move}', result, 1)
         # Increment counters for second question
-        for user_id in game["p1"], game["p2"]:
+        for index, user_id in enumerate((game["p1"], game["p2"])):
             # Increment nationality
-            nat = redis_session.hget(f"user:{user_id}", "nat").decode()
+            nat = redis_session.hget(f"user:{user_id}", "nat")
             redis_session.incr(f"nat:{nat}")
 
             # Increment num of games
             redis_session.zincrby("games", 1, user_id)
+
+            # Mark what the players first game's result was
+            player_position = index + 1
+            if result == FIRST:
+                first_game = "win" if player_position == 1 else "loss"
+            elif result == SECOND:
+                first_game = "win" if player_position == 2 else "loss"
+            else:
+                first_game = "draw"
+            print(first_game)
+            redis_session.hsetnx(f"user:{user_id}", "first_game", first_game)
 
     LOGGER.info(f"Done loading {csv}.")
 

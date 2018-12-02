@@ -35,6 +35,9 @@ def main():
         move_keys = redis_session.keys("move:*")
         nat_keys = redis_session.keys("nat:*")
         redis_session.delete("games", *move_keys, *nat_keys)
+        user_keys = redis_session.keys("user:*")
+        for user_key in user_keys:
+            redis_session.hdel(user_key, "first_game")
 
     sql_session = db.get_session() if args.sql else None
     games.load_games(sql_session, redis_session, "game_data.csv")
