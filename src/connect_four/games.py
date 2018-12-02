@@ -1,6 +1,6 @@
 import logging
 
-from connect_four import orm, users
+from connect_four import orm
 
 
 LOGGER = logging.getLogger(__name__)
@@ -26,8 +26,8 @@ def load_games(sql_session, redis_session, csv):
 
         # Increment counters for second question
         for user_id in game["p1"], game["p2"]:
-            nationality = users.get_nationality(sql_session, user_id)
-            redis_session.incr(f"nationality:{nationality}")
+            nat = redis_session.hget(f"user:{user_id}", "nat")
+            redis_session.incr(f"nat:{nat}")
 
     LOGGER.info(f"Done loading {csv}.")
 
