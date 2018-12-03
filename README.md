@@ -7,8 +7,6 @@ I'm assuming data is coming from two places:
 1. User API
 1. Game CSV
 
-
-
 The solution uses Redis as the data store. It is in memory, super fast,
 and is single threaded so it is nice for consistency. Redis can be flushed to
 disk for persistence.
@@ -18,24 +16,21 @@ to answer any of the questions.
 
 
 ## Analytics
+
 Analytics reads from the redis server.
 
 
 ## How to run
 
-This should be as simple as `docker run docker_image`. We'll see.
+Run a redis server through a docker image. Then build and run the Dockerfile
+provided.
+
+1. `docker run --name redis -d redis`
+2. `docker build -t connect-four .`
+3. `docker run --name app --link redis:redis connect-four`
 
 
 ## TODO
-
-Wrap this sucker in container.
-
-Write the "how to run" section:
-
-* build docker image
-* run docker image. That'll do it.
-* No need for any db setup because it will use only redis in-memory storage
-  that will be part of the docker image.
 
 Add numbers to the improvement section, mainly about why it'll all still fit in
 memory.
