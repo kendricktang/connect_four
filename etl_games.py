@@ -3,6 +3,7 @@
 Extract to SQL storage with --sql flag.
 
 Flush storage with --flush. This will flush redis of keys related to game data.
+This will not clean up the SQL `move` table... but I'm not using that.
 """
 
 import argparse

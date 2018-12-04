@@ -40,19 +40,21 @@ def main():
     logging.basicConfig(level=logging_level)
 
     if args.flush:
-        db.flush_sqlite()
+        db.flush_sql()
         db.flush_redis()
 
     sql_session = db.get_session() if args.sql else None
     redis_session = db.get_redis() if args.redis else None
 
-    loop = asyncio.get_event_loop()
-    queue = asyncio.Queue(loop=loop)
-    loop.run_until_complete(asyncio.gather(
-        users.produce(queue, debug=args.debug, coroutine_limit=args.coro_lim),
-        users.consume(queue, redis_session, sql_session),
-        ))
-    loop.close()
+    if sql_session or redis_session:
+        loop = asyncio.get_event_loop()
+        queue = asyncio.Queue(loop=loop)
+        loop.run_until_complete(asyncio.gather(
+            users.produce(queue, debug=args.debug,
+                          coroutine_limit=args.coro_lim),
+            users.consume(queue, redis_session, sql_session),
+            ))
+        loop.close()
 
 
 if __name__ == "__main__":

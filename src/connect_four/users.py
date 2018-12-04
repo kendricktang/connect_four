@@ -54,7 +54,7 @@ async def sql_consume(session, response):
     """Consumes user JSON. Push it to sql server."""
     for user_data in response:
 
-        user_id = user_data["id"]
+        user_id = int(user_data["id"])
         email = user_data["data"]["email"]
         nat = user_data["data"]["nat"]
         name = "{} {} {}".format(
@@ -66,7 +66,8 @@ async def sql_consume(session, response):
                         name=name)
         session.add(user)
         try:
-            LOGGER.debug(f"SQL: creating user {user_id}")
+            LOGGER.debug(
+                    f"SQL: creating user ({user_id}, {name} {email} {nat})")
             session.commit()  # commit one user at a time...
 
         except IntegrityError as int_err:
@@ -74,8 +75,10 @@ async def sql_consume(session, response):
             # is a duplicate user. If it is neither of those things then
             # raise the error.
             session.rollback()
-            other_user = session.query(orm.User).filter(
-                    orm.User.id == user_id)
+            other_users = session.query(orm.User).filter(
+                    orm.User.id == user_id).all()
+            assert len(other_users) == 1
+            other_user = other_users[0]
             is_same_user = (
                 other_user.name == user.name
                 and other_user.email == user.email
@@ -91,6 +94,9 @@ async def sql_consume(session, response):
                     .filter(orm.User.id == user_id) \
                     .update(name=name, nat=nat, email=email)
             else:
+                LOGGER.error(f"This user: {user.id} {user.name} {user.email}")
+                LOGGER.error(f"Other user: {other_user.id} {other_user.name} "
+                             f"{other_user.email}")
                 LOGGER.error(int_err)
                 raise int_err
 

@@ -22,18 +22,58 @@ Analytics reads from the redis server.
 
 ## How to run
 
-Run a redis server through a docker image. Then build and run the Dockerfile
-provided.
+Run a redis server through a docker image. Run a sqlite server through another
+docker image. Then build and run the Dockerfile provided to load in data and
+make the sql views. Then check out the answers through the sql cli.
 
-1. `docker run --name redis -d redis`
-2. `docker build -t connect-four .`
-3. `docker run --name app --link redis:redis connect-four`
+1. Start redis server in a container:
 
+> `$ docker run --name redis -d redis`
 
-## TODO
+2. Set a mysql password. Doesn't really matter:
 
-Add numbers to the improvement section, mainly about why it'll all still fit in
-memory.
+> `$ export MYSQL_PASSWORD=pass`
+
+3. Start mysql server in a container:
+
+> `$ docker run --name mysql -d -e MYSQL_RANDOM_ROOT_PASSWORD=yes
+> -e MYSQL_DATABASE=connect_four -e MYSQL_USER=connect_four
+> -e MYSQL_PASSWORD=${MYSQL_PASSWORD} mysql`
+
+4. Build this docker image:
+
+> `$ docker build -t connect-four .`
+
+5. Wait for the sql server on step 3 to start. Step 4 was probably plenty of
+   time to get it booted up, but I'd check to make sure before I started
+running my solution:
+
+> `$ docker logs mysql`
+
+6. Run this docker image:
+
+> `$ docker run -e MYSQL_PASSWORD=${MYSQL_PASSWORD} --name app
+> --link redis:redis --link mysql:mysql connect-four`
+
+7. Explore sql storage:
+
+> `$ docker run -it --link mysql:mysql --name mysql-cli --rm mysql
+> sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT"
+> --database connect_four -uconnect_four -p'`
+
+You'll be prompted to put in your password. Then you can expore the tables. To
+answer the three questions, three queries are provided:
+
+1. `select * from starting_move_percentile_rank;`
+2. `select * from nationality;`
+3. `select * from new_user;`
+
+The weird characters don't show up well in the Docker image's stdout... If you
+want to check to see that they're encoded properly, you can run
+`check_characters.py`:
+
+> `$ docker run -e MYSQL_PASSWORD=${MYSQL_PASSWORD} --link mysql:mysql
+> connect-four python check_characters.py`
 
 
 ## Improvements

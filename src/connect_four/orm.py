@@ -4,7 +4,7 @@ Storing User and Game data.
 """
 import logging
 
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -41,10 +41,10 @@ class User(Base):
     I'll keep a few other things like name for sending the email.
     """
     __tablename__ = "user"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=False)
     email = Column(String(128))
     name = Column(String(128))
-    nat = Column(String(64))
+    nat = Column(String(4))
 
 
 class Move(Base):
@@ -60,3 +60,25 @@ class Move(Base):
     move_number = Column(Integer)
     column = Column(Integer)
     result = Column(String(4))
+
+
+class StartingMovePercentileRank(Base):
+    __tablename__ = "starting_move_percentile_rank"
+    starting_move = Column(Integer, primary_key=True, autoincrement=False)
+    num_wins = Column(Integer)
+    total_games = Column(Integer)
+    percentile_rank = Column(Float)
+
+
+class Nationality(Base):
+    __tablename__ = "nationality"
+    id = Column(Integer, primary_key=True)
+    nationality = Column(String(4))
+    games = Column(Integer)
+
+
+class NewUser(Base):
+    __tablename__ = "new_user"
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    email = Column(String(128))
+    result = Column(String(128))
