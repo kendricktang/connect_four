@@ -17,7 +17,9 @@ to answer any of the questions.
 
 ## Analytics
 
-Analytics reads from the redis server.
+Analytics is stored in the redis server. Running the script `analytics.py` will
+push data into a mysql database for your pleasure. You won't have to run that
+script manually.
 
 
 ## How to run
